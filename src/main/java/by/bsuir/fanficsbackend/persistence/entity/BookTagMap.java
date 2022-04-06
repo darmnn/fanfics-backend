@@ -2,21 +2,19 @@ package by.bsuir.fanficsbackend.persistence.entity;
 
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
 @EnableJpaAuditing
+@Table(name = "book_tag_map")
 public class BookTagMap extends AbstractEntity {
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "bookID")
+    @JoinColumn(name = "book")
     private Book book;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "tagID")
+    @JoinColumn(name = "tag")
     private Tag tag;
 
     public Book getBook() {

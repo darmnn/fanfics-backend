@@ -38,7 +38,7 @@ public abstract class AbstractResponseDTOAssembler<E extends AbstractEntity, R e
                     AbstractEntity subEntity = (AbstractEntity) entityFieldValue;
 
                     if (subEntity != null) {
-                        ResponseDTO subResource = (ResponseDTO)assembler.createModelWithId(subEntity.getId(), subEntity);
+                        ResponseDTO subResource = assembler.toModel(subEntity);
                         subResource.setId(subEntity.getId());
                         setFiledValue(dtoFiled, dto, subResource);
                     }

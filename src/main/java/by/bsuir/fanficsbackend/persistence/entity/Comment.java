@@ -7,6 +7,7 @@ import java.util.Objects;
 
 @Entity
 @EnableJpaAuditing
+@Table(name = "comment")
 public class Comment extends AbstractEntity {
     @Column
     private String text;

@@ -7,6 +7,7 @@ import java.util.Objects;
 
 @Entity
 @EnableJpaAuditing
+@Table(name = "chapter")
 public class Chapter extends AbstractEntity{
     @Column
     private Integer number;

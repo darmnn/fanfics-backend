@@ -4,10 +4,12 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.util.Objects;
 
 @Entity
 @EnableJpaAuditing
+@Table(name = "tag")
 public class Tag extends AbstractEntity {
     @Column
     private String name;
