@@ -3,7 +3,6 @@ package by.bsuir.fanficsbackend.persistence.entity;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 import javax.persistence.*;
-import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -26,14 +25,6 @@ public class Book extends AbstractEntity {
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     @JoinColumn(name = "category")
     private Category category;
-
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinTable(
-            name = "book_tag_map",
-            joinColumns = @JoinColumn(name = "book_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "tag_id", referencedColumnName = "id")
-    )
-    private List<Tag> tags;
 
     @Column(columnDefinition = "integer default 0")
     private Integer quant_of_ratings;
@@ -81,14 +72,6 @@ public class Book extends AbstractEntity {
         this.category = category;
     }
 
-    public List<Tag> getTags() {
-        return tags;
-    }
-
-    public void setTags(List<Tag> tags) {
-        this.tags = tags;
-    }
-
     public Integer getQuant_of_ratings() {
         return quant_of_ratings;
     }
@@ -110,12 +93,12 @@ public class Book extends AbstractEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Book book = (Book) o;
-        return name.equals(book.name) && description.equals(book.description) && genre.equals(book.genre) && fandom.equals(book.fandom) && category.equals(book.category) && tags.equals(book.tags)  && quant_of_ratings.equals(book.quant_of_ratings) && rating.equals(book.rating);
+        return name.equals(book.name) && description.equals(book.description) && genre.equals(book.genre) && fandom.equals(book.fandom) && category.equals(book.category) && quant_of_ratings.equals(book.quant_of_ratings) && rating.equals(book.rating);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, description, genre, fandom, category, tags, quant_of_ratings, rating);
+        return Objects.hash(name, description, genre, fandom, category, quant_of_ratings, rating);
     }
 
     @Override
@@ -126,7 +109,6 @@ public class Book extends AbstractEntity {
                 ", genre=" + genre +
                 ", fandom=" + fandom +
                 ", category=" + category +
-                ", tags=" + tags +
                 ", quant_of_ratings=" + quant_of_ratings +
                 ", rating=" + rating +
                 '}';

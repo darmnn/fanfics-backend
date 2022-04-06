@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
-@RequestMapping("/works")
+@RequestMapping("/books")
 public interface BookService extends ReadService<BookResponseDTO, SearchDTO> {
     @GetMapping("/recent")
     @ResponseBody

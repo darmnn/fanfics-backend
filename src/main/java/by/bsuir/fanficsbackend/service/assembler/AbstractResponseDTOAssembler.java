@@ -31,7 +31,6 @@ public abstract class AbstractResponseDTOAssembler<E extends AbstractEntity, R e
 
             if (entityField != null) {
                 Class<?> dtoFieldType = dtoFiled.getType();
-                Class<?> entityFiledType = entityField.getType();
                 Object entityFieldValue = getFiledValue(entityField, entity);
 
                 if (isResponseDTOType(dtoFieldType)) {
@@ -39,7 +38,9 @@ public abstract class AbstractResponseDTOAssembler<E extends AbstractEntity, R e
                     AbstractEntity subEntity = (AbstractEntity) entityFieldValue;
 
                     if (subEntity != null) {
-                        ResponseDTO subResource = assembler.toModel(subEntity);
+                        ResponseDTO subResource = (ResponseDTO)assembler.createModelWithId(subEntity.getId(), subEntity);
+                        subResource.setId(subEntity.getId());
+                        setFiledValue(dtoFiled, dto, subResource);
                     }
                 }
                 else {

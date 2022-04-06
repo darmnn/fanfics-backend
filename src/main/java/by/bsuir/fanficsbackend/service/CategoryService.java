@@ -4,6 +4,6 @@ import by.bsuir.fanficsbackend.service.dto.CategoryResponseDTO;
 import by.bsuir.fanficsbackend.service.dto.SearchDTO;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-@RequestMapping("/category")
+@RequestMapping("/categories")
 public interface CategoryService extends ReadService<CategoryResponseDTO, SearchDTO> {
 }

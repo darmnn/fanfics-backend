@@ -4,6 +4,6 @@ import by.bsuir.fanficsbackend.service.dto.FandomResponseDTO;
 import by.bsuir.fanficsbackend.service.dto.SearchDTO;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-@RequestMapping("/fandom")
+@RequestMapping("/fandoms")
 public interface FandomService extends ReadService<FandomResponseDTO, SearchDTO> {
 }
