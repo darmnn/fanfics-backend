@@ -15,6 +15,8 @@ public class BookResponseDTO extends ResponseDTO<BookResponseDTO> {
 
     private List<TagResponseDTO> tags;
 
+    private UserResponseDTO user;
+
     private Integer quant_of_ratings;
 
     private Integer rating;
@@ -88,5 +90,13 @@ public class BookResponseDTO extends ResponseDTO<BookResponseDTO> {
 
     public void setRating(Integer rating) {
         this.rating = rating;
+    }
+
+    public UserResponseDTO getUser() {
+        return user;
+    }
+
+    public void setUser(UserResponseDTO user) {
+        this.user = user;
     }
 }

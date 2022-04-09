@@ -27,6 +27,10 @@ public class Book extends AbstractEntity {
     @JoinColumn(name = "category")
     private Category category;
 
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @JoinColumn(name = "user")
+    private User user;
+
     @Column(columnDefinition = "integer default 0")
     private Integer quant_of_ratings;
 
@@ -89,29 +93,24 @@ public class Book extends AbstractEntity {
         this.rating = rating;
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Book book = (Book) o;
-        return name.equals(book.name) && description.equals(book.description) && genre.equals(book.genre) && fandom.equals(book.fandom) && category.equals(book.category) && quant_of_ratings.equals(book.quant_of_ratings) && rating.equals(book.rating);
+        return name.equals(book.name) && description.equals(book.description) && genre.equals(book.genre) && fandom.equals(book.fandom) && category.equals(book.category) && user.equals(book.user) && quant_of_ratings.equals(book.quant_of_ratings) && rating.equals(book.rating);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, description, genre, fandom, category, quant_of_ratings, rating);
-    }
-
-    @Override
-    public String toString() {
-        return "Book{" +
-                "name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", genre=" + genre +
-                ", fandom=" + fandom +
-                ", category=" + category +
-                ", quant_of_ratings=" + quant_of_ratings +
-                ", rating=" + rating +
-                '}';
+        return Objects.hash(name, description, genre, fandom, category, user, quant_of_ratings, rating);
     }
 }

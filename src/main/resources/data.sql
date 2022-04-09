@@ -30,6 +30,19 @@ CREATE TABLE tag
     updatedAt      TIMESTAMP
 );
 
+CREATE TABLE user
+(
+    id               INTEGER AUTO_INCREMENT PRIMARY KEY,
+    name             VARCHAR(100) UNIQUE,
+    password        VARCHAR(100),
+    createdAt      TIMESTAMP,
+    updatedAt      TIMESTAMP,
+    age            INT,
+    about           VARCHAR(300),
+    admin          BIT,
+    blocked         BIT
+);
+
 CREATE TABLE book
 (
     id               INTEGER AUTO_INCREMENT PRIMARY KEY,
@@ -41,7 +54,8 @@ CREATE TABLE book
     updatedAt      TIMESTAMP,
     fandom INTEGER REFERENCES fandom (id) ON DELETE CASCADE,
     category INTEGER REFERENCES category (id) ON DELETE CASCADE,
-    genre INTEGER REFERENCES genre (id) ON DELETE CASCADE
+    genre INTEGER REFERENCES genre (id) ON DELETE CASCADE,
+    user INTEGER REFERENCES user (id) ON DELETE CASCADE
 );
 
 CREATE TABLE chapter
@@ -87,11 +101,15 @@ insert into genre(name) values('Роман');
 insert into genre(name) values('Фэнтези');
 insert into genre(name) values('Ужасы');
 
-insert into book(name, description, rating, fandom, category, genre) values('Ghostbuster 2.0', 'Вряд ли молодая девушка могла бы подумать, насколько её прошлое запутанное. Её состояние с каждым днем ухудшается, а призраки из прошлого все чаще посещают её.', 3, 1, 2, 3);
-insert into book(name, description, rating, fandom, category, genre) values('Вселенная забытого бога', 'Жизнь его исчиляется множеством столетий, а богатства королей - ничто в сравнении с сокровищами в его владении.', 3, 1, 2, 3);
-insert into book(name, description, rating, fandom, category, genre) values('Восход Теней', 'Больше века минуло со свержения Тёмного. Мир расколот междоусобицами, боги требуют всё больше жертв, возвращаются герои забытых сказок. ', 2, 2, 1, 1);
-insert into book(name, description, rating, fandom, category, genre) values('Синеглазый офицер', 'Как могли бы развиваться отношения двух главных героев. В этой версии событий нет Варвары Синичкиной, Глеб Жеглов не убивал Левченко. Возможно, появится намек на дело Груздевой.', 1, 4, 2, 2);
-insert into book(name, description, rating, fandom, category, genre) values('Эгеон', 'Лина с детства грезила морем и всегда была защитницей окружающей среды. Её главное увлечение — дайвинг и книги по морской биологии, а поступление в Институт естественных наук стало приоритетом в жизни.', 3, 1, 4, 3);
+insert into user(name, password, age, about, admin, blocked) values('user1', '123', 20, 'Hi, I am user 1!', 0, 0);
+insert into user(name, password, age, about, admin, blocked) values('user2', '456', 22, 'Hi, I am user 2!', 0, 0);
+insert into user(name, password, age, about, admin, blocked) values('user3', '789', 25, 'Hi, I am user 3!', 0, 0);
+
+insert into book(name, description, rating, fandom, category, genre, user) values('Ghostbuster 2.0', 'Вряд ли молодая девушка могла бы подумать, насколько её прошлое запутанное. Её состояние с каждым днем ухудшается, а призраки из прошлого все чаще посещают её.', 3, 1, 2, 3, 1);
+insert into book(name, description, rating, fandom, category, genre, user) values('Вселенная забытого бога', 'Жизнь его исчиляется множеством столетий, а богатства королей - ничто в сравнении с сокровищами в его владении.', 3, 1, 2, 3, 2);
+insert into book(name, description, rating, fandom, category, genre, user) values('Восход Теней', 'Больше века минуло со свержения Тёмного. Мир расколот междоусобицами, боги требуют всё больше жертв, возвращаются герои забытых сказок. ', 2, 2, 1, 1, 3);
+insert into book(name, description, rating, fandom, category, genre, user) values('Синеглазый офицер', 'Как могли бы развиваться отношения двух главных героев. В этой версии событий нет Варвары Синичкиной, Глеб Жеглов не убивал Левченко. Возможно, появится намек на дело Груздевой.', 1, 4, 2, 2, 1);
+insert into book(name, description, rating, fandom, category, genre, user) values('Эгеон', 'Лина с детства грезила морем и всегда была защитницей окружающей среды. Её главное увлечение — дайвинг и книги по морской биологии, а поступление в Институт естественных наук стало приоритетом в жизни.', 3, 1, 4, 3, 2);
 
 insert into book_tag_map(book, tag) values(1, 1);
 insert into book_tag_map(book, tag) values(1, 2);
