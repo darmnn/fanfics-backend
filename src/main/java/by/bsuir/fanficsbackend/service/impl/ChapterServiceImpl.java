@@ -28,7 +28,7 @@ public class ChapterServiceImpl extends AbstractReadService<ChapterResponseDTO, 
     protected List<Predicate> buildSearchPredicates(ChapterSearchDTO dto, Root<Chapter> root) {
         List<Predicate> predicateList = new ArrayList<>();
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-        predicateList.add(criteriaBuilder.equal(root.get("book").get("name"), dto.getBookName()));
+        predicateList.add(criteriaBuilder.equal(root.get("book").get("id"), dto.getBookId()));
         return predicateList;
     }
 }
