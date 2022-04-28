@@ -16,6 +16,10 @@ public class Comment extends AbstractEntity {
     @JoinColumn(name = "book")
     private Book book;
 
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @JoinColumn(name = "user")
+    private User user;
+
     public String getText() {
         return text;
     }
@@ -32,17 +36,25 @@ public class Comment extends AbstractEntity {
         this.book = book;
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Comment comment = (Comment) o;
-        return text.equals(comment.text) && book.equals(comment.book);
+        return text.equals(comment.text) && book.equals(comment.book) && user.equals(comment.user);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(text, book);
+        return Objects.hash(text, book, user);
     }
 
     @Override
@@ -50,6 +62,7 @@ public class Comment extends AbstractEntity {
         return "Comment{" +
                 "text='" + text + '\'' +
                 ", book=" + book +
+                ", user=" + user +
                 '}';
     }
 }

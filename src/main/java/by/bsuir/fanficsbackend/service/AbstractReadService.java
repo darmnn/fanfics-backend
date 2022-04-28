@@ -19,15 +19,18 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public abstract class AbstractReadService<R extends ResponseDTO<R>, S extends SearchDTO, E extends AbstractEntity, C extends CustomCrudRepository<E>>
+public abstract class AbstractReadService<R extends ResponseDTO<R>, S extends SearchDTO, E extends AbstractEntity, M extends CustomCrudRepository<E>>
         implements ReadService<R, S> {
     protected AbstractResponseDTOAssembler<E, R> responseAssembler;
     protected Class<E> entityClass;
 
     @Autowired
-    protected C repository;
+    protected M repository;
     @Autowired
     protected EntityManager entityManager;
+
+//    @Autowired
+//    private ValidatorRegistry validatorRegistry;
 
     protected AbstractReadService(AbstractResponseDTOAssembler<E, R> responseAssembler, Class<E> entityClass) {
         this.responseAssembler = responseAssembler;
@@ -43,6 +46,8 @@ public abstract class AbstractReadService<R extends ResponseDTO<R>, S extends Se
 
     @Override
     public List<R> search(S dto) {
+        validate(dto);
+
         List<E> entities = new ArrayList<>();
 
         if (dto != null) {
@@ -69,5 +74,15 @@ public abstract class AbstractReadService<R extends ResponseDTO<R>, S extends Se
 
     protected List<Predicate> buildSearchPredicates(S dto, Root<E> root) {
         return Collections.emptyList();
+    }
+
+    private void validate(Object dto) {
+//        BindingResult bindingResult = new BeanPropertyBindingResult(dto, dto.getClass().getSimpleName());
+//
+//        RestValidator validator = validatorRegistry.getValidator(dto.getClass());
+//        validator.validate(dto, bindingResult);
+//        if (bindingResult.hasErrors()) {
+//            throw new RuntimeException();
+//        }
     }
 }

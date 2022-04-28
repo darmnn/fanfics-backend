@@ -2,22 +2,29 @@ package by.bsuir.fanficsbackend.persistence.entity;
 
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import java.util.Objects;
 
 @Entity
 @EnableJpaAuditing
 public class User extends AbstractEntity {
+    @Column
     private String name;
 
+    @Column
     private String password;
 
+    @Column
     private Integer age;
 
+    @Column
     private String about;
 
+    @Column
     private Boolean admin;
 
+    @Column
     private Boolean blocked;
 
     public String getName() {

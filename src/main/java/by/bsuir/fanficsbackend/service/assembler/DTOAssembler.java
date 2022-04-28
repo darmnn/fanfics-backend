@@ -11,14 +11,6 @@ public interface DTOAssembler {
         return ResponseDTO.class.isAssignableFrom(clazz);
     }
 
-    default boolean isEntityType(Class<?> clazz) {
-        return AbstractEntity.class.isAssignableFrom(clazz);
-    }
-
-    default boolean isRequestDTOType(Class<?> clazz) {
-        return RequestDTO.class.isAssignableFrom(clazz);
-    }
-
     default Object getFiledValue(Field field, Object o) {
         try {
             field.setAccessible(true);

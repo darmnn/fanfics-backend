@@ -24,7 +24,6 @@ public class BookResponseDTOAssembler extends AbstractResponseDTOAssembler<Book,
 
     @Override
     protected void populateAdditionalFields(BookResponseDTO dto, Book entity) {
-        Iterable<BookTagMap> tagList = bookTagMapRepository.findAll();
         List<Tag> tags = bookTagMapRepository.findByBookId(entity.getId()).stream().map(t -> t.getTag()).collect(Collectors.toList());
         dto.setTags(tags.stream().map(t -> tagResponseAssembler.toModel(t)).collect(Collectors.toList()));
     }

@@ -15,6 +15,9 @@ public class Book extends AbstractEntity {
     @Column
     private String description;
 
+    @Column
+    private String photoPath;
+
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     @JoinColumn(name = "genre")
     private Genre genre;
@@ -51,6 +54,14 @@ public class Book extends AbstractEntity {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getPhotoPath() {
+        return photoPath;
+    }
+
+    public void setPhotoPath(String photoPath) {
+        this.photoPath = photoPath;
     }
 
     public Genre getGenre() {
@@ -106,11 +117,26 @@ public class Book extends AbstractEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Book book = (Book) o;
-        return name.equals(book.name) && description.equals(book.description) && genre.equals(book.genre) && fandom.equals(book.fandom) && category.equals(book.category) && user.equals(book.user) && quant_of_ratings.equals(book.quant_of_ratings) && rating.equals(book.rating);
+        return name.equals(book.name) && description.equals(book.description) && photoPath.equals(book.photoPath) && genre.equals(book.genre) && fandom.equals(book.fandom) && category.equals(book.category) && user.equals(book.user) && quant_of_ratings.equals(book.quant_of_ratings) && rating.equals(book.rating);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, description, genre, fandom, category, user, quant_of_ratings, rating);
+        return Objects.hash(name, description, photoPath, genre, fandom, category, user, quant_of_ratings, rating);
+    }
+
+    @Override
+    public String toString() {
+        return "Book{" +
+                "name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", photoPath='" + photoPath + '\'' +
+                ", genre=" + genre +
+                ", fandom=" + fandom +
+                ", category=" + category +
+                ", user=" + user +
+                ", quant_of_ratings=" + quant_of_ratings +
+                ", rating=" + rating +
+                '}';
     }
 }
