@@ -1,15 +1,15 @@
 package by.bsuir.fanficsbackend.service.impl;
 
 import by.bsuir.fanficsbackend.persistence.entity.Book;
+import by.bsuir.fanficsbackend.persistence.entity.Tag;
 import by.bsuir.fanficsbackend.persistence.repository.BookRepository;
+import by.bsuir.fanficsbackend.persistence.repository.TagRepository;
 import by.bsuir.fanficsbackend.service.AbstractCrudService;
 import by.bsuir.fanficsbackend.service.BookService;
 import by.bsuir.fanficsbackend.service.assembler.BookRequestDTOAssembler;
 import by.bsuir.fanficsbackend.service.assembler.BookResponseDTOAssembler;
-import by.bsuir.fanficsbackend.service.dto.BookCreateRequestDTO;
-import by.bsuir.fanficsbackend.service.dto.BookResponseDTO;
-import by.bsuir.fanficsbackend.service.dto.BookSearchDTO;
-import by.bsuir.fanficsbackend.service.dto.BookUpdateRequestDTO;
+import by.bsuir.fanficsbackend.service.assembler.TagResponseDTOAssembler;
+import by.bsuir.fanficsbackend.service.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -29,6 +29,12 @@ public class BookServiceImpl extends AbstractCrudService<BookResponseDTO, BookCr
     private static final int RECENT_WORKS_LIMIT = 15;
 
     @Autowired
+    private TagRepository tagRepository;
+
+    @Autowired
+    private TagResponseDTOAssembler tagAssembler;
+
+    @Autowired
     protected BookServiceImpl(BookResponseDTOAssembler responseAssembler, BookRequestDTOAssembler requestAssembler) {
         super(responseAssembler, requestAssembler, Book.class);
     }
@@ -43,7 +49,7 @@ public class BookServiceImpl extends AbstractCrudService<BookResponseDTO, BookCr
     }
 
     @Override
-    public List<BookResponseDTO> search(Long fandom, Long category, Long genre, Long user) {
+    public List<BookResponseDTO> search(Long fandom, Long category, Long genre, Long user, Long tag) {
         BookSearchDTO bookSearchDTO = new BookSearchDTO();
         if (fandom != null) {
             bookSearchDTO.setFandomId(fandom);
@@ -57,7 +63,15 @@ public class BookServiceImpl extends AbstractCrudService<BookResponseDTO, BookCr
         if (user != null) {
             bookSearchDTO.setUserId(user);
         }
-        return this.searchByParams(bookSearchDTO);
+
+        List<BookResponseDTO> books = this.searchByParams(bookSearchDTO);
+
+        if (tag != null) {
+            Tag tagEntity = tagRepository.findById(tag).orElseThrow();
+            TagResponseDTO tagResponseDTO = tagAssembler.toModel(tagEntity);
+            books.stream().filter(b -> b.getTags().contains(tagResponseDTO)).collect(Collectors.toList());
+        }
+        return books;
     }
 
     @Override

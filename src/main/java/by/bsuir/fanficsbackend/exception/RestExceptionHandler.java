@@ -10,13 +10,13 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(ValidationException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public Error handleValidationException(ValidationException exception) {
-        return new Error(exception.getMessage());
+    public ErrorResponseDTO handleValidationException(ValidationException exception) {
+        return new ErrorResponseDTO(exception.getMessage());
     }
 
     @ExceptionHandler(JwtAuthenticationException.class)
     @ResponseStatus(HttpStatus.FORBIDDEN)
-    public Error handleAuthenticationException(JwtAuthenticationException exception) {
-        return new Error(exception.getMessage());
+    public ErrorResponseDTO handleAuthenticationException(JwtAuthenticationException exception) {
+        return new ErrorResponseDTO(exception.getMessage());
     }
 }

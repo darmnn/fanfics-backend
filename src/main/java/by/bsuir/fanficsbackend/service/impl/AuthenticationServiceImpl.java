@@ -10,8 +10,6 @@ import by.bsuir.fanficsbackend.service.dto.UserResponseDTO;
 import by.bsuir.fanficsbackend.service.dto.UserSearchDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -28,7 +26,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private UserService userService;
 
     @Override
-    public String authenticate(AuthenticationDTO authenticationDTO) {
+    public JwtResponse authenticate(AuthenticationDTO authenticationDTO) {
         UserSearchDTO userSearchDTO = new UserSearchDTO();
         userSearchDTO.setName(authenticationDTO.getUsername());
         userSearchDTO.setPassword(authenticationDTO.getPassword());
@@ -38,14 +36,22 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         if (userResponseDTO.isEmpty()) {
             throw new JwtAuthenticationException("Wrong username or password");
         }
-
-        String userRole;
-        if (userResponseDTO.get(0).getAdmin()) {
-            userRole = "admin";
-        } else {
-            userRole = "user";
+        else if (userResponseDTO.get(0).getBlocked()) {
+            throw new JwtAuthenticationException("This user is blocked");
         }
 
-        return jwtTokenProvider.createToken(userResponseDTO.get(0).getName(), userRole);
+        String userRole;
+        Boolean isAdmin;
+        if (userResponseDTO.get(0).getAdmin()) {
+            userRole = "admin";
+            isAdmin = true;
+        } else {
+            userRole = "user";
+            isAdmin = false;
+        }
+
+        String token = jwtTokenProvider.createToken(userResponseDTO.get(0).getName(), userRole);
+
+        return new JwtResponse(userResponseDTO.get(0).getId(), token, isAdmin);
     }
 }

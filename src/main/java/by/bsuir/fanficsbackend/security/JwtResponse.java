@@ -1,29 +1,24 @@
 package by.bsuir.fanficsbackend.security;
 
-import java.time.LocalDateTime;
-
 public class JwtResponse {
-
-    private String username;
+    private Long userId;
 
     private String accessToken;
 
-    private LocalDateTime accessTokenExpiration;
+    private Boolean admin;
 
-    public JwtResponse(String username, String accessToken, LocalDateTime accessTokenExpiration) {
-        this.username = username;
+    public JwtResponse(Long userId, String accessToken, Boolean admin) {
+        this.userId = userId;
         this.accessToken = accessToken;
-        this.accessTokenExpiration = accessTokenExpiration;
+        this.admin = admin;
     }
 
-    public String getUsername() {
-
-        return username;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setUsername(String username) {
-
-        this.username = username;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public String getAccessToken() {
@@ -36,11 +31,11 @@ public class JwtResponse {
         this.accessToken = accessToken;
     }
 
-    public LocalDateTime getAccessTokenExpiration() {
-        return accessTokenExpiration;
+    public Boolean getAdmin() {
+        return admin;
     }
 
-    public void setAccessTokenExpiration(LocalDateTime accessTokenExpiration) {
-        this.accessTokenExpiration = accessTokenExpiration;
+    public void setAdmin(Boolean admin) {
+        this.admin = admin;
     }
 }

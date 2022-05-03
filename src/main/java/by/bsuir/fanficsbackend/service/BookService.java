@@ -19,5 +19,6 @@ public interface BookService extends CrudService<BookCreateRequestDTO, BookSearc
     List<BookResponseDTO> search(@RequestParam(required = false) Long fandom,
                                       @RequestParam(required = false) Long category,
                                       @RequestParam(required = false) Long genre,
-                                      @RequestParam(required = false) Long user);
+                                      @RequestParam(required = false) Long user,
+                                      @RequestParam(required = false) Long tag);
 }

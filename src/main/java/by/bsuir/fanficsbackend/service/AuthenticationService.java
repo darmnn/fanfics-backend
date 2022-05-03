@@ -11,5 +11,5 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public interface AuthenticationService {
     @PostMapping("/login")
     @PreAuthorize("permitAll()")
-    String authenticate(@RequestBody AuthenticationDTO authenticationDTO);
+    JwtResponse authenticate(@RequestBody AuthenticationDTO authenticationDTO);
 }
