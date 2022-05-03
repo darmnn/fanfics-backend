@@ -2,12 +2,14 @@ package by.bsuir.fanficsbackend.service;
 
 import by.bsuir.fanficsbackend.security.JwtResponse;
 import by.bsuir.fanficsbackend.service.dto.AuthenticationDTO;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-@RequestMapping("/login")
+@RequestMapping
 public interface AuthenticationService {
-    @PostMapping
-    JwtResponse authenticate(@RequestBody AuthenticationDTO authenticationDTO);
+    @PostMapping("/login")
+    @PreAuthorize("permitAll()")
+    String authenticate(@RequestBody AuthenticationDTO authenticationDTO);
 }

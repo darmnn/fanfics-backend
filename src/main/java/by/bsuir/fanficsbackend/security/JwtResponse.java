@@ -10,7 +10,7 @@ public class JwtResponse {
 
     private LocalDateTime accessTokenExpiration;
 
-    public JwtResponse(String username, String accessToken, String refreshToken, LocalDateTime accessTokenExpiration, LocalDateTime refreshTokenExpiration) {
+    public JwtResponse(String username, String accessToken, LocalDateTime accessTokenExpiration) {
         this.username = username;
         this.accessToken = accessToken;
         this.accessTokenExpiration = accessTokenExpiration;

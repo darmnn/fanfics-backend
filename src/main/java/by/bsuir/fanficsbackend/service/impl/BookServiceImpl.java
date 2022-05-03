@@ -13,8 +13,10 @@ import by.bsuir.fanficsbackend.service.dto.BookUpdateRequestDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -41,8 +43,42 @@ public class BookServiceImpl extends AbstractCrudService<BookResponseDTO, BookCr
     }
 
     @Override
+    public List<BookResponseDTO> search(Long fandom, Long category, Long genre, Long user) {
+        BookSearchDTO bookSearchDTO = new BookSearchDTO();
+        if (fandom != null) {
+            bookSearchDTO.setFandomId(fandom);
+        }
+        if (category != null) {
+            bookSearchDTO.setCategoryId(category);
+        }
+        if (genre != null) {
+            bookSearchDTO.setGenreId(genre);
+        }
+        if (user != null) {
+            bookSearchDTO.setUserId(user);
+        }
+        return this.searchByParams(bookSearchDTO);
+    }
+
+    @Override
     protected List<Predicate> buildSearchPredicates(BookSearchDTO dto, Root<Book> root) {
-        return super.buildSearchPredicates(dto, root);
+        List<Predicate> predicates = new ArrayList<>();
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+
+        if (dto.getFandomId() != null) {
+            predicates.add(criteriaBuilder.equal(root.get("fandom").get("id"), dto.getFandomId()));
+        }
+        if (dto.getCategoryId() != null) {
+            predicates.add(criteriaBuilder.equal(root.get("category").get("id"), dto.getCategoryId()));
+        }
+        if (dto.getGenreId()!= null) {
+            predicates.add(criteriaBuilder.equal(root.get("genre").get("id"), dto.getGenreId()));
+        }
+        if (dto.getUserId() != null) {
+            predicates.add(criteriaBuilder.equal(root.get("user").get("id"), dto.getFandomId()));
+        }
+
+        return predicates;
     }
 
     @Override

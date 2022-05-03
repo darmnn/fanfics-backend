@@ -13,7 +13,9 @@ import by.bsuir.fanficsbackend.service.dto.SearchDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 public class CommentServiceImpl extends AbstractCrudService<CommentResponseDTO, CommentRequestDTO, CommentRequestDTO,
@@ -34,7 +36,9 @@ public class CommentServiceImpl extends AbstractCrudService<CommentResponseDTO, 
 
     @Override
     public List<CommentResponseDTO> getBookComments(Long id) {
-        return null;
+        List<Comment> entities = new ArrayList<>();
+        entities.addAll(repository.findByBookId(id));
+        return entities.stream().map(e -> responseAssembler.toModel(e)).collect(Collectors.toList());
     }
 
     @Override

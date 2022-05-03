@@ -78,6 +78,16 @@ CREATE TABLE book_tag_map
     createdAt      TIMESTAMP
 );
 
+CREATE TABLE comment
+(
+    id               INTEGER AUTO_INCREMENT PRIMARY KEY,
+    text      VARCHAR(400),
+    book INTEGER REFERENCES book (id) ON DELETE CASCADE,
+    user INTEGER REFERENCES user (id) ON DELETE CASCADE,
+    updatedAt      TIMESTAMP,
+    createdAt      TIMESTAMP
+);
+
 insert into fandom(name) values('One direction');
 insert into fandom(name) values('Naruto');
 insert into fandom(name) values('Stranger things');
@@ -101,7 +111,7 @@ insert into genre(name) values('Роман');
 insert into genre(name) values('Фэнтези');
 insert into genre(name) values('Ужасы');
 
-insert into user(name, password, age, about, admin, blocked) values('user1', '123', 20, 'Hi, I am user 1!', 0, 0);
+insert into user(name, password, age, about, admin, blocked) values('user1', '123', 20, 'Hi, I am user 1!', 1, 0);
 insert into user(name, password, age, about, admin, blocked) values('user2', '456', 22, 'Hi, I am user 2!', 0, 0);
 insert into user(name, password, age, about, admin, blocked) values('user3', '789', 25, 'Hi, I am user 3!', 0, 0);
 
@@ -126,3 +136,8 @@ insert into chapter(number, name, text, book) values(1, 'First chapter', 'Я з�
 insert into chapter(number, name, text, book) values(2, 'Second chapter', 'Старый трехэтажный особняк с башенкой наверху стоял в метрах 100 от моей машины. Окутанный плотным туманом, он казался больше привидением, чем реальной постройкой.', 1);
 insert into chapter(number, name, text, book) values(1, 'Первая глава', 'Я неохотно вышел из автомобиля. Под ботинками захрустел гравий, разнося весть о моем прибытии по окрестностям.', 2);
 insert into chapter(number, name, text, book) values(2, 'Вторая глава', 'Путь до дома пролегал через заросший дикими растениями двор. Полная луна освещала мощенную светлым камнем дорожку до темного крыльца.', 2);
+
+insert into comment(text, book, user) values('nice', 1, 1);
+insert into comment(text, book, user) values('good', 1, 2);
+insert into comment(text, book, user) values('not so nice', 2, 1);
+insert into comment(text, book, user) values('awesome', 2, 2);

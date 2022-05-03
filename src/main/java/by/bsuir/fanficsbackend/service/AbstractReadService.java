@@ -51,24 +51,31 @@ public abstract class AbstractReadService<R extends ResponseDTO<R>, S extends Se
         List<E> entities = new ArrayList<>();
 
         if (dto != null) {
-            CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-            CriteriaQuery<E> criteriaQuery = criteriaBuilder.createQuery(entityClass);
-
-            Root<E> root = criteriaQuery.from(entityClass);
-            List<Predicate> predicates = new ArrayList<>();
-            predicates.addAll(buildSearchPredicates(dto, root));
-            Predicate[] predicateArray = predicates.toArray(new Predicate[]{});
-
-            criteriaQuery.where(criteriaBuilder.and(predicateArray));
-
-            TypedQuery<E> typedQuery = entityManager.createQuery(criteriaQuery);
-
-            entities = typedQuery.getResultList();
+            return searchByParams(dto);
         }
         else {
             repository.findAll().forEach(entities::add);
-        }
+            return entities.stream().map(e -> responseAssembler.toModel(e)).collect(Collectors.toList());
 
+        }
+    }
+
+    protected List<R> searchByParams(S dto) {
+        List<E> entities = new ArrayList<>();
+
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<E> criteriaQuery = criteriaBuilder.createQuery(entityClass);
+
+        Root<E> root = criteriaQuery.from(entityClass);
+        List<Predicate> predicates = new ArrayList<>();
+        predicates.addAll(buildSearchPredicates(dto, root));
+        Predicate[] predicateArray = predicates.toArray(new Predicate[]{});
+
+        criteriaQuery.where(criteriaBuilder.and(predicateArray));
+
+        TypedQuery<E> typedQuery = entityManager.createQuery(criteriaQuery);
+
+        entities = typedQuery.getResultList();
         return entities.stream().map(e -> responseAssembler.toModel(e)).collect(Collectors.toList());
     }
 

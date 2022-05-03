@@ -1,6 +1,7 @@
 package by.bsuir.fanficsbackend.security;
 
 import by.bsuir.fanficsbackend.exception.JwtAuthenticationException;
+import by.bsuir.fanficsbackend.service.impl.UserServiceImpl;
 import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -31,11 +32,8 @@ public class JwtTokenProvider {
     @Value("${jwt.header}")
     private String authorizationHeader;
 
-    @Value("${jwt.token_prefix}")
-    private String tokenPrefix;
-
     @Autowired
-    private UserDetailsService userDetailsService;
+    private UserServiceImpl userDetailsService;
 
     @PostConstruct
     protected void init() {
@@ -80,10 +78,6 @@ public class JwtTokenProvider {
     }
 
     public String resolveToken(HttpServletRequest request) {
-        String bearerToken = request.getHeader(authorizationHeader);
-        if (bearerToken != null && bearerToken.startsWith(tokenPrefix)) {
-            return bearerToken.substring(tokenPrefix.length());
-        }
-        return null;
+        return request.getHeader(authorizationHeader);
     }
 }
