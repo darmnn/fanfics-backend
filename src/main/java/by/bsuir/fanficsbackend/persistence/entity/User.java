@@ -22,6 +22,9 @@ public class User extends AbstractEntity {
     private String about;
 
     @Column
+    private String contactInfo;
+
+    @Column
     private Boolean admin;
 
     @Column
@@ -59,6 +62,14 @@ public class User extends AbstractEntity {
         this.about = about;
     }
 
+    public String getContactInfo() {
+        return contactInfo;
+    }
+
+    public void setContactInfo(String contactInfo) {
+        this.contactInfo = contactInfo;
+    }
+
     public Boolean getAdmin() {
         return admin;
     }
@@ -80,12 +91,12 @@ public class User extends AbstractEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return name.equals(user.name) && password.equals(user.password) && age.equals(user.age) && about.equals(user.about) && admin.equals(user.admin) && blocked.equals(user.blocked);
+        return name.equals(user.name) && password.equals(user.password) && age.equals(user.age) && about.equals(user.about) && contactInfo.equals(user.contactInfo) && admin.equals(user.admin) && blocked.equals(user.blocked);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, password, age, about, admin, blocked);
+        return Objects.hash(name, password, age, about, contactInfo, admin, blocked);
     }
 
     @Override
@@ -95,6 +106,7 @@ public class User extends AbstractEntity {
                 ", password='" + password + '\'' +
                 ", age=" + age +
                 ", about='" + about + '\'' +
+                ", contactInfo='" + contactInfo + '\'' +
                 ", admin=" + admin +
                 ", blocked=" + blocked +
                 '}';

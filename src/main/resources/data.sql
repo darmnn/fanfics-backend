@@ -39,6 +39,7 @@ CREATE TABLE user
     updatedAt      TIMESTAMP,
     age            INT,
     about           VARCHAR(300),
+    contactInfo           VARCHAR(300),
     admin          BIT,
     blocked         BIT
 );
@@ -111,9 +112,9 @@ insert into genre(name) values('Роман');
 insert into genre(name) values('Фэнтези');
 insert into genre(name) values('Ужасы');
 
-insert into user(name, password, age, about, admin, blocked) values('user1', '123', 20, 'Hi, I am user 1!', 1, 0);
-insert into user(name, password, age, about, admin, blocked) values('user2', '456', 22, 'Hi, I am user 2!', 0, 0);
-insert into user(name, password, age, about, admin, blocked) values('user3', '789', 25, 'Hi, I am user 3!', 0, 0);
+insert into user(name, password, age, about, contactInfo, admin, blocked) values('user1', '123', 20, 'Hi, I am user 1!', 'instagram: @user1', 1, 0);
+insert into user(name, password, age, about, contactInfo, admin, blocked) values('user2', '456', 22, 'Hi, I am user 2!', 'instagram: @user2', 0, 0);
+insert into user(name, password, age, about, contactInfo, admin, blocked) values('user3', '789', 25, 'Hi, I am user 3!', 'instagram: @user3', 0, 0);
 
 insert into book(name, description, rating, fandom, category, genre, user) values('Ghostbuster 2.0', 'Вряд ли молодая девушка могла бы подумать, насколько её прошлое запутанное. Её состояние с каждым днем ухудшается, а призраки из прошлого все чаще посещают её.', 3, 1, 2, 3, 1);
 insert into book(name, description, rating, fandom, category, genre, user) values('Вселенная забытого бога', 'Жизнь его исчиляется множеством столетий, а богатства королей - ничто в сравнении с сокровищами в его владении.', 3, 1, 2, 3, 2);

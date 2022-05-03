@@ -7,6 +7,8 @@ public class UserResponseDTO extends ResponseDTO<UserResponseDTO> {
 
     private String about;
 
+    private String contactInfo;
+
     private Boolean admin;
 
     private Boolean blocked;
@@ -40,6 +42,14 @@ public class UserResponseDTO extends ResponseDTO<UserResponseDTO> {
 
     public void setAbout(String about) {
         this.about = about;
+    }
+
+    public String getContactInfo() {
+        return contactInfo;
+    }
+
+    public void setContactInfo(String contactInfo) {
+        this.contactInfo = contactInfo;
     }
 
     public Boolean getAdmin() {
