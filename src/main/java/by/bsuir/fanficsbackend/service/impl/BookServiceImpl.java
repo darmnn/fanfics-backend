@@ -29,12 +29,6 @@ public class BookServiceImpl extends AbstractCrudService<BookResponseDTO, BookCr
     private static final int RECENT_WORKS_LIMIT = 15;
 
     @Autowired
-    private TagRepository tagRepository;
-
-    @Autowired
-    private TagResponseDTOAssembler tagAssembler;
-
-    @Autowired
     protected BookServiceImpl(BookResponseDTOAssembler responseAssembler, BookRequestDTOAssembler requestAssembler) {
         super(responseAssembler, requestAssembler, Book.class);
     }
@@ -67,11 +61,14 @@ public class BookServiceImpl extends AbstractCrudService<BookResponseDTO, BookCr
         List<BookResponseDTO> books = this.searchByParams(bookSearchDTO);
 
         if (tag != null) {
-            Tag tagEntity = tagRepository.findById(tag).orElseThrow();
-            TagResponseDTO tagResponseDTO = tagAssembler.toModel(tagEntity);
-            books.stream().filter(b -> b.getTags().contains(tagResponseDTO)).collect(Collectors.toList());
+            List<Book> taggedBooks = repository.findByTag(tag);
+            List<BookResponseDTO> taggedBooksResponseDTOs = taggedBooks.stream().map(tb -> responseAssembler.toModel(tb))
+                    .collect(Collectors.toList());
+            return taggedBooksResponseDTOs;
         }
-        return books;
+        else {
+            return books;
+        }
     }
 
     @Override
@@ -85,7 +82,7 @@ public class BookServiceImpl extends AbstractCrudService<BookResponseDTO, BookCr
         if (dto.getCategoryId() != null) {
             predicates.add(criteriaBuilder.equal(root.get("category").get("id"), dto.getCategoryId()));
         }
-        if (dto.getGenreId()!= null) {
+        if (dto.getGenreId() != null) {
             predicates.add(criteriaBuilder.equal(root.get("genre").get("id"), dto.getGenreId()));
         }
         if (dto.getUserId() != null) {

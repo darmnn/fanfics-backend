@@ -1,6 +1,7 @@
 package by.bsuir.fanficsbackend.service.dto;
 
 import java.util.List;
+import java.util.Objects;
 
 public class BookResponseDTO extends ResponseDTO<BookResponseDTO> {
     private String name;
@@ -98,5 +99,19 @@ public class BookResponseDTO extends ResponseDTO<BookResponseDTO> {
 
     public void setUser(UserResponseDTO user) {
         this.user = user;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        BookResponseDTO that = (BookResponseDTO) o;
+        return name.equals(that.name) && description.equals(that.description) && Objects.equals(quant_of_ratings, that.quant_of_ratings) && Objects.equals(rating, that.rating);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), name, description, quant_of_ratings, rating);
     }
 }
