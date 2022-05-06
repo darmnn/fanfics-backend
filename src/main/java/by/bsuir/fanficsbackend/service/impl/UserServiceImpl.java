@@ -1,5 +1,6 @@
 package by.bsuir.fanficsbackend.service.impl;
 
+import by.bsuir.fanficsbackend.exception.ValidationException;
 import by.bsuir.fanficsbackend.persistence.entity.User;
 import by.bsuir.fanficsbackend.persistence.repository.UserRepository;
 import by.bsuir.fanficsbackend.security.Role;
@@ -15,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -22,6 +24,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class UserServiceImpl extends AbstractCrudService<UserResponseDTO, UserRequestDTO, UserRequestDTO, UserSearchDTO,
@@ -62,5 +65,23 @@ public class UserServiceImpl extends AbstractCrudService<UserResponseDTO, UserRe
         }
 
         return predicates;
+    }
+
+    @Override
+    protected void validateSave(Object obj, User entity, BindingResult bindingResult) {
+        UserRequestDTO dto = (UserRequestDTO) obj;
+
+        if (dto.getEmail() == null || dto.getEmail().isEmpty() || dto.getName() == null || dto.getName().isEmpty() ||
+                dto.getPassword() == null || dto.getPassword().isEmpty()) {
+            bindingResult.reject("You must fill in name, password and email.");
+        }
+
+        if (repository.findByName(dto.getName()) != null || repository.findByEmail(dto.getEmail()) != null) {
+            bindingResult.reject("User with this name or email already exists.");
+        }
+
+        if (bindingResult.hasErrors()) {
+            throw new ValidationException(bindingResult.getAllErrors().get(0).getCode());
+        }
     }
 }

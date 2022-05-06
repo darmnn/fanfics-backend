@@ -1,13 +1,20 @@
 package by.bsuir.fanficsbackend.service.dto;
 
-public class UserRequestDTO extends RequestDTO{
-    private String name;
+import com.sun.istack.NotNull;
 
+public class UserRequestDTO extends RequestDTO{
+    @NotNull
+    private String name;
+    @NotNull
     private String password;
+    @NotNull
+    private String email;
 
     private Integer age;
 
     private String about;
+
+    private String contactInfo;
 
     ///////////////////////////////////
     //
@@ -46,5 +53,21 @@ public class UserRequestDTO extends RequestDTO{
 
     public void setAbout(String about) {
         this.about = about;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getContactInfo() {
+        return contactInfo;
+    }
+
+    public void setContactInfo(String contactInfo) {
+        this.contactInfo = contactInfo;
     }
 }

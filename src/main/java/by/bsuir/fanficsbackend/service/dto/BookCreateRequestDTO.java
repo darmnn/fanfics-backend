@@ -17,7 +17,7 @@ public class BookCreateRequestDTO extends RequestDTO {
 
     private Long userId;
 
-    private List<Long> tags;
+    private List<Long> tagIds;
 
     ////////////////////////////////////////
     //
@@ -82,11 +82,11 @@ public class BookCreateRequestDTO extends RequestDTO {
         this.userId = userId;
     }
 
-    public List<Long> getTags() {
-        return tags;
+    public List<Long> getTagIds() {
+        return tagIds;
     }
 
     public void setTags(List<Long> tags) {
-        this.tags = tags;
+        this.tagIds = tags;
     }
 }

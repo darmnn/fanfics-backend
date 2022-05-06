@@ -3,6 +3,7 @@ package by.bsuir.fanficsbackend.service.assembler;
 import by.bsuir.fanficsbackend.persistence.entity.AbstractEntity;
 import by.bsuir.fanficsbackend.service.dto.RequestDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.ReflectionUtils;
 
 import javax.persistence.EntityManager;
 import java.lang.reflect.Field;
@@ -85,7 +86,17 @@ public abstract class AbstractRequestDTOAssembler<E extends AbstractEntity, C ex
     }
 
     private void processEntityFields(Object dto, E entity) {
+        ReflectionUtils.doWithFields(dto.getClass(), dtoField -> {
+                    String entityFiledName = getEntityFiledName(dtoField);
+                    Field entityFiled = ReflectionUtils.findField(entityType, entityFiledName);
 
+                    if (entityFiled != null) {
+                        Object dtoFiledValue = getFiledValue(dtoField, dto);
+                        Object entityFiledValue = dtoFiledValue;
+                        setFiledValue(entityFiled, entity, entityFiledValue);
+                    }
+                }
+        );
     }
 
     public Class<C> getCreateDTOType() {

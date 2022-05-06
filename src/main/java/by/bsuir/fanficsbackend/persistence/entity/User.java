@@ -22,6 +22,9 @@ public class User extends AbstractEntity {
     private String about;
 
     @Column
+    private String email;
+
+    @Column
     private String contactInfo;
 
     @Column
@@ -86,29 +89,24 @@ public class User extends AbstractEntity {
         this.blocked = blocked;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return name.equals(user.name) && password.equals(user.password) && age.equals(user.age) && about.equals(user.about) && contactInfo.equals(user.contactInfo) && admin.equals(user.admin) && blocked.equals(user.blocked);
+        return name.equals(user.name) && password.equals(user.password) && Objects.equals(age, user.age) && Objects.equals(about, user.about) && email.equals(user.email) && Objects.equals(contactInfo, user.contactInfo) && admin.equals(user.admin) && blocked.equals(user.blocked);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, password, age, about, contactInfo, admin, blocked);
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "name='" + name + '\'' +
-                ", password='" + password + '\'' +
-                ", age=" + age +
-                ", about='" + about + '\'' +
-                ", contactInfo='" + contactInfo + '\'' +
-                ", admin=" + admin +
-                ", blocked=" + blocked +
-                '}';
+        return Objects.hash(name, password, age, about, email, contactInfo, admin, blocked);
     }
 }

@@ -7,6 +7,8 @@ public class UserResponseDTO extends ResponseDTO<UserResponseDTO> {
 
     private String about;
 
+    private String email;
+
     private String contactInfo;
 
     private Boolean admin;
@@ -66,5 +68,13 @@ public class UserResponseDTO extends ResponseDTO<UserResponseDTO> {
 
     public void setBlocked(Boolean blocked) {
         this.blocked = blocked;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }
