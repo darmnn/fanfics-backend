@@ -43,11 +43,22 @@ public class BookRequestDTOAssembler extends AbstractRequestDTOAssembler<Book, B
         Category category = categoryRepository.findById(dto.getCategoryId()).orElseThrow();
         User user = userRepository.findById(dto.getUserId()).orElseThrow();
 
-        for (Long tagId : dto.getTagIds()) {
-            BookTagMap bookTagMap = new BookTagMap();
-            bookTagMap.setBook(entity);
-            bookTagMap.setTag(tagRepository.findById(tagId).orElseThrow());
-            bookTagMapRepository.save(bookTagMap);
+        if (dto.getTags() != null) {
+            for (String tag : dto.getTags()) {
+                BookTagMap bookTagMap = new BookTagMap();
+                bookTagMap.setBook(entity);
+
+                if (tagRepository.findByName(tag).isPresent()) {
+                    bookTagMap.setTag(tagRepository.findByName(tag).get());
+                }
+                else {
+                    Tag tagEntity = new Tag();
+                    tagEntity.setName(tag);
+                    bookTagMap.setTag(tagEntity);
+                }
+
+                bookTagMapRepository.save(bookTagMap);
+            }
         }
 
         entity.setGenre(genre);

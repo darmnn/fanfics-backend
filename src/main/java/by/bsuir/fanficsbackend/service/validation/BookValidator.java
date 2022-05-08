@@ -45,14 +45,6 @@ public class BookValidator implements RestValidator {
         if (!userRepository.findById(dto.getUserId()).isPresent()) {
             errors.reject("This user doesn't exist.");
         }
-
-        if (dto.getTagIds() != null) {
-            for (Long tagId : dto.getTagIds()) {
-                if (!tagRepository.existsById(tagId)) {
-                    errors.reject("One of the tags doesn't exist, ID : " + tagId.toString() + " .");
-                }
-            }
-        }
     }
 
     @Override
