@@ -14,7 +14,7 @@ public interface CrudService<C extends RequestDTO, S extends SearchDTO, U extend
         extends ReadService<R, S> {
     @PostMapping
     @ResponseBody
-    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseStatus(HttpStatus.OK)
     R create(@RequestBody C dto, BindingResult bindingResult) throws HttpRequestMethodNotSupportedException;
 
     @PatchMapping("/{id}")
