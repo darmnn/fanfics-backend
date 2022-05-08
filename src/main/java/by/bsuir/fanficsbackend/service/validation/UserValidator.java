@@ -19,6 +19,7 @@ public class UserValidator implements RestValidator {
         if (dto.getEmail() == null || dto.getEmail().isEmpty() || dto.getName() == null || dto.getName().isEmpty() ||
                 dto.getPassword() == null || dto.getPassword().isEmpty()) {
             errors.reject("You must fill in name, password and email.");
+            return;
         }
 
         if (repository.findByName(dto.getName()) != null || repository.findByEmail(dto.getEmail()) != null) {

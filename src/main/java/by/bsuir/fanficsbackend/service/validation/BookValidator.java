@@ -27,6 +27,7 @@ public class BookValidator implements RestValidator {
         if (dto.getCategoryId() == null || dto.getFandomId() == null || dto.getGenreId() == null || dto.getName() == null
                 || dto.getName().isEmpty()) {
             errors.reject("You must fill in book name, category, fandom and genre to create new book.");
+            return;
         }
 
         if (!categoryRepository.findById(dto.getCategoryId()).isPresent()) {

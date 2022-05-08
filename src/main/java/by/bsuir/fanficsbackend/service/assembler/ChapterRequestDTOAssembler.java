@@ -1,5 +1,6 @@
 package by.bsuir.fanficsbackend.service.assembler;
 
+import by.bsuir.fanficsbackend.persistence.entity.Book;
 import by.bsuir.fanficsbackend.persistence.entity.Chapter;
 import by.bsuir.fanficsbackend.persistence.repository.BookRepository;
 import by.bsuir.fanficsbackend.service.dto.ChapterCreateRequestDTO;
@@ -18,6 +19,8 @@ public class ChapterRequestDTOAssembler extends AbstractRequestDTOAssembler<Chap
 
     @Override
     protected void populateAdditionalFieldsForCreate(Chapter entity, ChapterCreateRequestDTO dto) {
-        super.populateAdditionalFieldsForCreate(entity, dto);
+        Book book = bookRepository.findById(dto.getBookId()).orElseThrow();
+
+        entity.setBook(book);
     }
 }

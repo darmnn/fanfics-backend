@@ -58,12 +58,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/books/{id}").permitAll()
 
                 .antMatchers(HttpMethod.GET, "/comments").permitAll()
-                .antMatchers(HttpMethod.POST, "/comments").permitAll()
+                .antMatchers(HttpMethod.POST, "/comments").hasAuthority(READ.getPermission())
+                .antMatchers(HttpMethod.OPTIONS, "/comments").hasAuthority(READ.getPermission())
                 .antMatchers(HttpMethod.GET, "/comments/book/{id}").permitAll()
                 .antMatchers(HttpMethod.GET, "/comments/{id}").permitAll()
 
                 .antMatchers(HttpMethod.GET, "/chapters").permitAll()
-                .antMatchers(HttpMethod.POST, "/chapters").permitAll()
+                .antMatchers(HttpMethod.POST, "/chapters").hasAuthority(READ.getPermission())
+                .antMatchers(HttpMethod.OPTIONS, "/chapters").hasAuthority(READ.getPermission())
                 .antMatchers(HttpMethod.GET, "/chapters/book/{id}").permitAll()
                 .antMatchers(HttpMethod.GET, "/chapters/{id}").permitAll()
 

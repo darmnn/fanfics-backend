@@ -1,6 +1,8 @@
 package by.bsuir.fanficsbackend.service.assembler;
 
+import by.bsuir.fanficsbackend.persistence.entity.Book;
 import by.bsuir.fanficsbackend.persistence.entity.Comment;
+import by.bsuir.fanficsbackend.persistence.entity.User;
 import by.bsuir.fanficsbackend.persistence.repository.BookRepository;
 import by.bsuir.fanficsbackend.persistence.repository.UserRepository;
 import by.bsuir.fanficsbackend.service.dto.CommentRequestDTO;
@@ -21,6 +23,10 @@ public class CommentRequestDTOAssembler extends AbstractRequestDTOAssembler<Comm
 
     @Override
     protected void populateAdditionalFieldsForCreate(Comment entity, CommentRequestDTO dto) {
-        super.populateAdditionalFieldsForCreate(entity, dto);
+        User user = userRepository.findById(dto.getUserId()).orElseThrow();
+        Book book = bookRepository.findById(dto.getBookId()).orElseThrow();
+
+        entity.setBook(book);
+        entity.setUser(user);
     }
 }
