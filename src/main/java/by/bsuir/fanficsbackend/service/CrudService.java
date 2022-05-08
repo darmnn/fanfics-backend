@@ -15,6 +15,7 @@ public interface CrudService<C extends RequestDTO, S extends SearchDTO, U extend
     @PostMapping
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
+    @CrossOrigin(origins = "http://localhost:3000")
     R create(@RequestBody C dto, BindingResult bindingResult) throws HttpRequestMethodNotSupportedException;
 
     @PatchMapping("/{id}")
