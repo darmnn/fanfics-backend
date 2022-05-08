@@ -1,5 +1,6 @@
 package by.bsuir.fanficsbackend.security.config;
 
+import by.bsuir.fanficsbackend.security.Permission;
 import by.bsuir.fanficsbackend.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -50,15 +51,19 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET,"/genres/{id}").permitAll()
 
                 .antMatchers(HttpMethod.GET, "/books").permitAll()
+                .antMatchers(HttpMethod.POST, "/books").hasAuthority(READ.getPermission())
+                .antMatchers(HttpMethod.OPTIONS, "/books").hasAuthority(READ.getPermission())
                 .antMatchers(HttpMethod.GET, "/books/recent").permitAll()
                 .antMatchers(HttpMethod.GET, "/books/search").permitAll()
                 .antMatchers(HttpMethod.GET, "/books/{id}").permitAll()
 
                 .antMatchers(HttpMethod.GET, "/comments").permitAll()
+                .antMatchers(HttpMethod.POST, "/comments").permitAll()
                 .antMatchers(HttpMethod.GET, "/comments/book/{id}").permitAll()
                 .antMatchers(HttpMethod.GET, "/comments/{id}").permitAll()
 
                 .antMatchers(HttpMethod.GET, "/chapters").permitAll()
+                .antMatchers(HttpMethod.POST, "/chapters").permitAll()
                 .antMatchers(HttpMethod.GET, "/chapters/book/{id}").permitAll()
                 .antMatchers(HttpMethod.GET, "/chapters/{id}").permitAll()
 

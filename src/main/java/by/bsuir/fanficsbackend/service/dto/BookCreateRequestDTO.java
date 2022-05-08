@@ -1,20 +1,27 @@
 package by.bsuir.fanficsbackend.service.dto;
 
+import com.sun.istack.NotNull;
+
 import java.util.List;
 
 public class BookCreateRequestDTO extends RequestDTO {
+    @NotNull
     private String name;
 
     private String description;
 
     private String photoPath;
 
+    @NotNull
     private Long genreId;
 
+    @NotNull
     private Long fandomId;
 
+    @NotNull
     private Long categoryId;
 
+    @NotNull
     private Long userId;
 
     private List<Long> tagIds;

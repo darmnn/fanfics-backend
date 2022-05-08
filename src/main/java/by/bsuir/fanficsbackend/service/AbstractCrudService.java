@@ -1,5 +1,6 @@
 package by.bsuir.fanficsbackend.service;
 
+import by.bsuir.fanficsbackend.exception.ValidationException;
 import by.bsuir.fanficsbackend.persistence.entity.AbstractEntity;
 import by.bsuir.fanficsbackend.persistence.repository.CustomCrudRepository;
 import by.bsuir.fanficsbackend.service.assembler.AbstractRequestDTOAssembler;
@@ -7,6 +8,9 @@ import by.bsuir.fanficsbackend.service.assembler.AbstractResponseDTOAssembler;
 import by.bsuir.fanficsbackend.service.dto.RequestDTO;
 import by.bsuir.fanficsbackend.service.dto.ResponseDTO;
 import by.bsuir.fanficsbackend.service.dto.SearchDTO;
+import by.bsuir.fanficsbackend.service.validation.RestValidator;
+import by.bsuir.fanficsbackend.service.validation.ValidatorRegistry;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 
@@ -16,6 +20,8 @@ public abstract class AbstractCrudService<R extends ResponseDTO<R>, C extends Re
         S extends SearchDTO, E extends AbstractEntity, M extends CustomCrudRepository<E>>
         extends AbstractReadService<R, S, E, M> implements CrudService<C, S, U, R>{
     private AbstractRequestDTOAssembler<E, C, U> requestAssembler;
+    @Autowired
+    private ValidatorRegistry validatorRegistry;
 
     protected AbstractCrudService(AbstractResponseDTOAssembler<E, R> responseAssembler,
                                   AbstractRequestDTOAssembler<E, C, U> requestAssembler, Class<E> entityClass) {
@@ -54,8 +60,12 @@ public abstract class AbstractCrudService<R extends ResponseDTO<R>, C extends Re
 
     }
 
-    protected void validateSave(Object obj, E entity, BindingResult bindingResult) {
-
+    private void validateSave(Object obj, E entity, BindingResult bindingResult) {
+        RestValidator validator = validatorRegistry.getValidator(obj.getClass());
+        validator.validate(obj, entity, bindingResult);
+        if (bindingResult.hasErrors()) {
+            throw new ValidationException(bindingResult);
+        }
     }
 
     protected void validateAdditionalFieldsOnSave(Object obj, E entity, BindingResult bindingResult) {

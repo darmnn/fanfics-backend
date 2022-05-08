@@ -1,6 +1,6 @@
 package by.bsuir.fanficsbackend.service.assembler;
 
-import by.bsuir.fanficsbackend.persistence.entity.Book;
+import by.bsuir.fanficsbackend.persistence.entity.*;
 import by.bsuir.fanficsbackend.persistence.repository.*;
 import by.bsuir.fanficsbackend.service.dto.BookCreateRequestDTO;
 import by.bsuir.fanficsbackend.service.dto.BookUpdateRequestDTO;
@@ -38,6 +38,21 @@ public class BookRequestDTOAssembler extends AbstractRequestDTOAssembler<Book, B
 
     @Override
     protected void populateAdditionalFieldsForCreate(Book entity, BookCreateRequestDTO dto) {
-        super.populateAdditionalFieldsForCreate(entity, dto);
+        Genre genre = genreRepository.findById(dto.getGenreId()).orElseThrow();
+        Fandom fandom = fandomRepository.findById(dto.getFandomId()).orElseThrow();
+        Category category = categoryRepository.findById(dto.getCategoryId()).orElseThrow();
+        User user = userRepository.findById(dto.getUserId()).orElseThrow();
+
+        for (Long tagId : dto.getTagIds()) {
+            BookTagMap bookTagMap = new BookTagMap();
+            bookTagMap.setBook(entity);
+            bookTagMap.setTag(tagRepository.findById(tagId).orElseThrow());
+            bookTagMapRepository.save(bookTagMap);
+        }
+
+        entity.setGenre(genre);
+        entity.setCategory(category);
+        entity.setFandom(fandom);
+        entity.setUser(user);
     }
 }

@@ -66,22 +66,4 @@ public class UserServiceImpl extends AbstractCrudService<UserResponseDTO, UserRe
 
         return predicates;
     }
-
-    @Override
-    protected void validateSave(Object obj, User entity, BindingResult bindingResult) {
-        UserRequestDTO dto = (UserRequestDTO) obj;
-
-        if (dto.getEmail() == null || dto.getEmail().isEmpty() || dto.getName() == null || dto.getName().isEmpty() ||
-                dto.getPassword() == null || dto.getPassword().isEmpty()) {
-            bindingResult.reject("You must fill in name, password and email.");
-        }
-
-        if (repository.findByName(dto.getName()) != null || repository.findByEmail(dto.getEmail()) != null) {
-            bindingResult.reject("User with this name or email already exists.");
-        }
-
-        if (bindingResult.hasErrors()) {
-            throw new ValidationException(bindingResult.getAllErrors().get(0).getCode());
-        }
-    }
 }
