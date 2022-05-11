@@ -17,7 +17,7 @@ public class ChapterValidator implements RestValidator {
     public void validate(Object obj, AbstractEntity entity, Errors errors) {
         ChapterCreateRequestDTO dto = (ChapterCreateRequestDTO) obj;
 
-        if (dto.getText() == null || dto.getText().isEmpty() || dto.getNumber() == null || dto.getName() == null ||
+        if (dto.getText() == null || dto.getText().isEmpty() || dto.getName() == null ||
                 dto.getName().isEmpty() || dto.getBookId() == null) {
             errors.reject("You must provide number, name, text and book to post a chapter.");
             return;

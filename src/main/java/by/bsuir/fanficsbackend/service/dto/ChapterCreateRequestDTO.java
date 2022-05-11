@@ -1,8 +1,6 @@
 package by.bsuir.fanficsbackend.service.dto;
 
 public class ChapterCreateRequestDTO extends RequestDTO {
-    private Integer number;
-
     private String name;
 
     private String text;
@@ -14,15 +12,6 @@ public class ChapterCreateRequestDTO extends RequestDTO {
     // Getter & setter
     //
     ///////////////////////////////
-
-
-    public Integer getNumber() {
-        return number;
-    }
-
-    public void setNumber(Integer number) {
-        this.number = number;
-    }
 
     public String getName() {
         return name;
