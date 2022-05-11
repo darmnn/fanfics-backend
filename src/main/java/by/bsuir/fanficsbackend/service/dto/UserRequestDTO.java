@@ -1,13 +1,10 @@
 package by.bsuir.fanficsbackend.service.dto;
 
-import com.sun.istack.NotNull;
-
 public class UserRequestDTO extends RequestDTO{
-    @NotNull
     private String name;
-    @NotNull
+
     private String password;
-    @NotNull
+
     private String email;
 
     private Integer age;

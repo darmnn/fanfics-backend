@@ -21,6 +21,12 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return new ErrorResponseDTO(exception.getMessage());
     }
 
+    @ExceptionHandler(ResourceNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErrorResponseDTO handleResourceNotFoundException(ResourceNotFoundException exception) {
+        return new ErrorResponseDTO(exception.getMessage());
+    }
+
     private String parseErrorCodes(BindingResult bindingResult) {
         String errorCode = bindingResult.getAllErrors().get(0).getCodes()[0];
         int endOfErrorMessage = errorCode.indexOf(".");

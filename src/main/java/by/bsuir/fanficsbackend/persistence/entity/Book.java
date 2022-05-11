@@ -139,4 +139,9 @@ public class Book extends AbstractEntity {
                 ", rating=" + rating +
                 '}';
     }
+
+    @PrePersist
+    public void prePersist() {
+        this.rating = 0;
+    }
 }

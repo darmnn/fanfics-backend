@@ -1,16 +1,22 @@
 package by.bsuir.fanficsbackend.service.impl;
 
-import by.bsuir.fanficsbackend.persistence.entity.Book;
-import by.bsuir.fanficsbackend.persistence.entity.Tag;
-import by.bsuir.fanficsbackend.persistence.repository.BookRepository;
-import by.bsuir.fanficsbackend.persistence.repository.TagRepository;
+import by.bsuir.fanficsbackend.exception.ResourceNotFoundException;
+import by.bsuir.fanficsbackend.persistence.entity.*;
+import by.bsuir.fanficsbackend.persistence.repository.*;
 import by.bsuir.fanficsbackend.service.AbstractCrudService;
 import by.bsuir.fanficsbackend.service.BookService;
 import by.bsuir.fanficsbackend.service.assembler.BookRequestDTOAssembler;
 import by.bsuir.fanficsbackend.service.assembler.BookResponseDTOAssembler;
-import by.bsuir.fanficsbackend.service.assembler.TagResponseDTOAssembler;
-import by.bsuir.fanficsbackend.service.dto.*;
+import by.bsuir.fanficsbackend.service.dto.BookCreateRequestDTO;
+import by.bsuir.fanficsbackend.service.dto.BookResponseDTO;
+import by.bsuir.fanficsbackend.service.dto.BookSearchDTO;
+import by.bsuir.fanficsbackend.service.dto.BookUpdateRequestDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -27,6 +33,19 @@ public class BookServiceImpl extends AbstractCrudService<BookResponseDTO, BookCr
         BookSearchDTO, Book, BookRepository>
         implements BookService {
     private static final int RECENT_WORKS_LIMIT = 15;
+
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private GenreRepository genreRepository;
+    @Autowired
+    private FandomRepository fandomRepository;
+    @Autowired
+    private CategoryRepository categoryRepository;
+    @Autowired
+    private TagRepository tagRepository;
+    @Autowired
+    private BookTagMapRepository bookTagMapRepository;
 
     @Autowired
     protected BookServiceImpl(BookResponseDTOAssembler responseAssembler, BookRequestDTOAssembler requestAssembler) {
@@ -65,8 +84,7 @@ public class BookServiceImpl extends AbstractCrudService<BookResponseDTO, BookCr
             List<BookResponseDTO> taggedBooksResponseDTOs = taggedBooks.stream().map(tb -> responseAssembler.toModel(tb))
                     .collect(Collectors.toList());
             return taggedBooksResponseDTOs;
-        }
-        else {
+        } else {
             return books;
         }
     }
@@ -93,7 +111,66 @@ public class BookServiceImpl extends AbstractCrudService<BookResponseDTO, BookCr
     }
 
     @Override
+    public BookResponseDTO patch(Long id, BookUpdateRequestDTO dto) throws HttpRequestMethodNotSupportedException {
+        Book entity = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("No book found with ID "
+                + id.toString()));
+
+        if (dto.getDescription() != null) {
+            entity.setDescription(dto.getDescription());
+        }
+        if (dto.getGenreId() != null) {
+            Genre genre = genreRepository.findById(dto.getGenreId()).orElseThrow(() ->
+                    new ResourceNotFoundException("No genre with ID" + dto.getGenreId().toString()));
+            entity.setGenre(genre);
+        }
+        if (dto.getFandomId() != null) {
+            Fandom fandom = fandomRepository.findById(dto.getFandomId()).orElseThrow(() ->
+                    new ResourceNotFoundException("No fandom with ID" + dto.getFandomId().toString()));
+            entity.setFandom(fandom);
+        }
+        if (dto.getCategoryId() != null) {
+            Category category = categoryRepository.findById(dto.getCategoryId()).orElseThrow(() ->
+                    new ResourceNotFoundException("No category with ID" + dto.getCategoryId().toString()));
+            entity.setCategory(category);
+        }
+        if (dto.getTags() != null) {
+            for (String tag : dto.getTags()) {
+                BookTagMap bookTagMap = new BookTagMap();
+                bookTagMap.setBook(entity);
+
+                if (tagRepository.findByName(tag).isPresent()) {
+                    Tag tagEntity = tagRepository.findByName(tag).get();
+                    bookTagMap.setTag(tagEntity);
+
+                    if (!bookTagMapRepository.findByBookIdAndTagId(entity.getId(), tagEntity.getId()).isPresent()) {
+                        bookTagMapRepository.save(bookTagMap);
+                    }
+                }
+                else {
+                    Tag tagEntity = new Tag();
+                    tagEntity.setName(tag);
+                    bookTagMap.setTag(tagEntity);
+                    bookTagMapRepository.save(bookTagMap);
+                }
+            }
+        }
+        repository.save(entity);
+
+        return responseAssembler.toModel(entity);
+    }
+
+    @Override
     public boolean hasUpdateAccess(Long id) {
-        return false;
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (!(authentication instanceof AnonymousAuthenticationToken)) {
+            String currentUserName = authentication.getName();
+
+            User user = userRepository.findByName(currentUserName);
+            Book book = repository.findById(id).orElseThrow();
+
+            return book.getUser().equals(user);
+        } else {
+            return false;
+        }
     }
 }

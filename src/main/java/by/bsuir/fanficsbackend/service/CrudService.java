@@ -10,6 +10,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.*;
 
+@Validated
 public interface CrudService<C extends RequestDTO, S extends SearchDTO, U extends RequestDTO, R extends ResponseDTO>
         extends ReadService<R, S> {
     @PostMapping
@@ -20,7 +21,7 @@ public interface CrudService<C extends RequestDTO, S extends SearchDTO, U extend
 
     @PatchMapping("/{id}")
     @ResponseBody
-    @PreAuthorize("hasUpdateAccess({id})")
+    @PreAuthorize("this.hasUpdateAccess(#id)")
     R patch(@PathVariable Long id, @RequestBody U dto) throws HttpRequestMethodNotSupportedException;
 
     @DeleteMapping("/{id}")

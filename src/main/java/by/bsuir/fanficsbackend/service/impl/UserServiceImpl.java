@@ -1,6 +1,8 @@
 package by.bsuir.fanficsbackend.service.impl;
 
+import by.bsuir.fanficsbackend.exception.ResourceNotFoundException;
 import by.bsuir.fanficsbackend.exception.ValidationException;
+import by.bsuir.fanficsbackend.persistence.entity.Book;
 import by.bsuir.fanficsbackend.persistence.entity.User;
 import by.bsuir.fanficsbackend.persistence.repository.UserRepository;
 import by.bsuir.fanficsbackend.security.Role;
@@ -13,10 +15,14 @@ import by.bsuir.fanficsbackend.service.dto.UserRequestDTO;
 import by.bsuir.fanficsbackend.service.dto.UserResponseDTO;
 import by.bsuir.fanficsbackend.service.dto.UserSearchDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -51,7 +57,17 @@ public class UserServiceImpl extends AbstractCrudService<UserResponseDTO, UserRe
 
     @Override
     public boolean hasUpdateAccess(Long id) {
-        return false;
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (!(authentication instanceof AnonymousAuthenticationToken)) {
+            String currentUserName = authentication.getName();
+
+            User currentUser = repository.findByName(currentUserName);
+            User user = repository.findById(id).orElseThrow();
+
+            return currentUser.equals(user);
+        } else {
+            return false;
+        }
     }
 
     @Override
@@ -65,5 +81,25 @@ public class UserServiceImpl extends AbstractCrudService<UserResponseDTO, UserRe
         }
 
         return predicates;
+    }
+
+    @Override
+    public UserResponseDTO patch(Long id, UserRequestDTO dto) throws HttpRequestMethodNotSupportedException {
+        User entity = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("No user with ID" +
+                id.toString()));
+
+        if (dto.getPassword() != null) {
+            entity.setPassword(dto.getPassword());
+        }
+        if (dto.getContactInfo() != null) {
+            entity.setContactInfo(dto.getContactInfo());
+        }
+        if (dto.getAbout() != null) {
+            entity.setAbout(dto.getAbout());
+        }
+
+        repository.save(entity);
+
+        return responseAssembler.toModel(entity);
     }
 }
