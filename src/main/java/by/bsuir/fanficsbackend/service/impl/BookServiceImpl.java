@@ -115,6 +115,9 @@ public class BookServiceImpl extends AbstractCrudService<BookResponseDTO, BookCr
         Book entity = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("No book found with ID "
                 + id.toString()));
 
+        if (dto.getName() != null) {
+            entity.setName(dto.getName());
+        }
         if (dto.getDescription() != null) {
             entity.setDescription(dto.getDescription());
         }

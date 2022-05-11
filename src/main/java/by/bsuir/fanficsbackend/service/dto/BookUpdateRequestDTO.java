@@ -3,6 +3,8 @@ package by.bsuir.fanficsbackend.service.dto;
 import java.util.List;
 
 public class BookUpdateRequestDTO extends RequestDTO {
+    private String name;
+
     private String description;
 
     private Long genreId;
@@ -19,6 +21,14 @@ public class BookUpdateRequestDTO extends RequestDTO {
     //
     ///////////////////////////
 
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public String getDescription() {
         return description;
