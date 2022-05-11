@@ -52,6 +52,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
                 .antMatchers(HttpMethod.GET, "/books").permitAll()
                 .antMatchers(HttpMethod.POST, "/books").hasAuthority(READ.getPermission())
+                .antMatchers(HttpMethod.PATCH, "/books").hasAuthority(READ.getPermission())
                 .antMatchers(HttpMethod.OPTIONS, "/books").permitAll()
                 .antMatchers(HttpMethod.GET, "/books/recent").permitAll()
                 .antMatchers(HttpMethod.GET, "/books/search").permitAll()
@@ -65,12 +66,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
                 .antMatchers(HttpMethod.GET, "/chapters").permitAll()
                 .antMatchers(HttpMethod.POST, "/chapters").hasAuthority(READ.getPermission())
+                .antMatchers(HttpMethod.PATCH, "/chapters").hasAuthority(READ.getPermission())
                 .antMatchers(HttpMethod.OPTIONS, "/chapters").permitAll()
                 .antMatchers(HttpMethod.GET, "/chapters/book/{id}").permitAll()
                 .antMatchers(HttpMethod.GET, "/chapters/{id}").permitAll()
 
                 .antMatchers(HttpMethod.GET, "/users").permitAll()
                 .antMatchers(HttpMethod.POST, "/users").permitAll()
+                .antMatchers(HttpMethod.PATCH, "/users").permitAll()
                 .antMatchers(HttpMethod.OPTIONS, "/users").permitAll()
                 .antMatchers(HttpMethod.GET, "/users/{id}").permitAll()
 
