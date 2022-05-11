@@ -1,5 +1,6 @@
 package by.bsuir.fanficsbackend.service;
 
+import by.bsuir.fanficsbackend.exception.ResourceNotFoundException;
 import by.bsuir.fanficsbackend.persistence.entity.AbstractEntity;
 import by.bsuir.fanficsbackend.persistence.repository.CustomCrudRepository;
 import by.bsuir.fanficsbackend.service.assembler.AbstractResponseDTOAssembler;
@@ -40,7 +41,7 @@ public abstract class AbstractReadService<R extends ResponseDTO<R>, S extends Se
     @Override
     public R get(Long id) {
         Optional<E> optionalEntity = repository.findById(id);
-        E entity = optionalEntity.orElseThrow(() -> new RuntimeException());
+        E entity = optionalEntity.orElseThrow(() -> new ResourceNotFoundException("No resource with ID " + id.toString()));
         return responseAssembler.toModel(entity);
     }
 

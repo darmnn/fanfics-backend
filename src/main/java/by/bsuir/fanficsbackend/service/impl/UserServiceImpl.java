@@ -102,4 +102,20 @@ public class UserServiceImpl extends AbstractCrudService<UserResponseDTO, UserRe
 
         return responseAssembler.toModel(entity);
     }
+
+    @Override
+    public void block(Long id) {
+        User entity = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("No user with ID" +
+                id.toString()));
+        entity.setBlocked(true);
+        repository.save(entity);
+    }
+
+    @Override
+    public void unlock(Long id) {
+        User entity = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("No user with ID" +
+                id.toString()));
+        entity.setBlocked(false);
+        repository.save(entity);
+    }
 }

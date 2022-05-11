@@ -143,5 +143,6 @@ public class Book extends AbstractEntity {
     @PrePersist
     public void prePersist() {
         this.rating = 0;
+        this.quant_of_ratings = 0;
     }
 }

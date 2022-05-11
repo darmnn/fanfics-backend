@@ -173,4 +173,29 @@ public class BookServiceImpl extends AbstractCrudService<BookResponseDTO, BookCr
             return false;
         }
     }
+
+    @Override
+    public void like(Long id) {
+        Book entity = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("No book found with ID "
+                + id.toString()));
+        entity.setQuant_of_ratings(entity.getQuant_of_ratings() + 1);
+
+        if (entity.getQuant_of_ratings() < 15) {
+            entity.setRating(1);
+        }
+        else if (entity.getQuant_of_ratings() >= 15 && entity.getQuant_of_ratings() < 30) {
+            entity.setRating(2);
+        }
+        else if (entity.getQuant_of_ratings() >= 30 && entity.getQuant_of_ratings() < 50) {
+            entity.setRating(3);
+        }
+        else if (entity.getQuant_of_ratings() >= 50 && entity.getQuant_of_ratings() < 100) {
+            entity.setRating(4);
+        }
+        else if (entity.getQuant_of_ratings() >= 100) {
+            entity.setRating(5);
+        }
+
+        repository.save(entity);
+    }
 }

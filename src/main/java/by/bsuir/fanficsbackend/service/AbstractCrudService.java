@@ -1,5 +1,6 @@
 package by.bsuir.fanficsbackend.service;
 
+import by.bsuir.fanficsbackend.exception.ResourceNotFoundException;
 import by.bsuir.fanficsbackend.exception.ValidationException;
 import by.bsuir.fanficsbackend.persistence.entity.AbstractEntity;
 import by.bsuir.fanficsbackend.persistence.repository.CustomCrudRepository;
@@ -57,7 +58,9 @@ public abstract class AbstractCrudService<R extends ResponseDTO<R>, C extends Re
 
     @Override
     public void delete(Long id) {
-
+        E entity = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("No resource with ID " +
+                id.toString()));
+        repository.delete(entity);
     }
 
     private void validateSave(Object obj, E entity, BindingResult bindingResult) {
