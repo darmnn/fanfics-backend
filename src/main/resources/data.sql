@@ -94,6 +94,7 @@ insert into fandom(name) values('One direction');
 insert into fandom(name) values('Naruto');
 insert into fandom(name) values('Stranger things');
 insert into fandom(name) values('BTS');
+insert into fandom(name) values('Harry Potter');
 
 insert into category(name) values('Аниме и манга');
 insert into category(name) values('Книги');
@@ -122,6 +123,7 @@ insert into book(name, description, rating, fandom, category, genre, user, likes
 insert into book(name, description, rating, fandom, category, genre, user, likes) values('Восход Теней', 'Больше века минуло со свержения Тёмного. Мир расколот междоусобицами, боги требуют всё больше жертв, возвращаются герои забытых сказок. ', 2, 2, 1, 1, 3, 0);
 insert into book(name, description, rating, fandom, category, genre, user, likes) values('Синеглазый офицер', 'Как могли бы развиваться отношения двух главных героев. В этой версии событий нет Варвары Синичкиной, Глеб Жеглов не убивал Левченко. Возможно, появится намек на дело Груздевой.', 1, 4, 2, 2, 1, 0);
 insert into book(name, description, rating, fandom, category, genre, user, likes) values('Эгеон', 'Лина с детства грезила морем и всегда была защитницей окружающей среды. Её главное увлечение — дайвинг и книги по морской биологии, а поступление в Институт естественных наук стало приоритетом в жизни.', 3, 1, 4, 3, 2, 0);
+insert into book(name, description, rating, fandom, category, genre, user, likes) values('И остановится время', ' Драко Малфой отправляется в прошлое. У него есть всего сорок восемь часов на то, чтобы убедить молодого аврора Гермиону Грейнджер посадить его отца в тюрьму.', 5, 4 , 4, 3, 2, 0);
 
 insert into book_tag_map(book, tag) values(1, 1);
 insert into book_tag_map(book, tag) values(1, 2);
