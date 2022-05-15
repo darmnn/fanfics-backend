@@ -4,6 +4,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.PrePersist;
 import java.util.Objects;
 
 @Entity
@@ -108,5 +109,11 @@ public class User extends AbstractEntity {
     @Override
     public int hashCode() {
         return Objects.hash(name, password, age, about, email, contactInfo, admin, blocked);
+    }
+
+    @PrePersist
+    public void prePersist() {
+        this.admin = false;
+        this.blocked = false;
     }
 }
