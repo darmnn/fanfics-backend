@@ -12,7 +12,6 @@ import by.bsuir.fanficsbackend.service.dto.BookResponseDTO;
 import by.bsuir.fanficsbackend.service.dto.BookSearchDTO;
 import by.bsuir.fanficsbackend.service.dto.BookUpdateRequestDTO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -104,7 +103,7 @@ public class BookServiceImpl extends AbstractCrudService<BookResponseDTO, BookCr
             predicates.add(criteriaBuilder.equal(root.get("genre").get("id"), dto.getGenreId()));
         }
         if (dto.getUserId() != null) {
-            predicates.add(criteriaBuilder.equal(root.get("user").get("id"), dto.getFandomId()));
+            predicates.add(criteriaBuilder.equal(root.get("user").get("id"), dto.getUserId()));
         }
 
         return predicates;
@@ -181,21 +180,21 @@ public class BookServiceImpl extends AbstractCrudService<BookResponseDTO, BookCr
     public void like(Long id) {
         Book entity = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("No book found with ID "
                 + id.toString()));
-        entity.setQuant_of_ratings(entity.getQuant_of_ratings() + 1);
+        entity.setLikes(entity.getLikes() + 1);
 
-        if (entity.getQuant_of_ratings() < 15) {
+        if (entity.getLikes() < 15) {
             entity.setRating(1);
         }
-        else if (entity.getQuant_of_ratings() >= 15 && entity.getQuant_of_ratings() < 30) {
+        else if (entity.getLikes() >= 15 && entity.getLikes() < 30) {
             entity.setRating(2);
         }
-        else if (entity.getQuant_of_ratings() >= 30 && entity.getQuant_of_ratings() < 50) {
+        else if (entity.getLikes() >= 30 && entity.getLikes() < 50) {
             entity.setRating(3);
         }
-        else if (entity.getQuant_of_ratings() >= 50 && entity.getQuant_of_ratings() < 100) {
+        else if (entity.getLikes() >= 50 && entity.getLikes() < 100) {
             entity.setRating(4);
         }
-        else if (entity.getQuant_of_ratings() >= 100) {
+        else if (entity.getLikes() >= 100) {
             entity.setRating(5);
         }
 

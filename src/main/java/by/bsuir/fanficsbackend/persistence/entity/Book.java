@@ -35,7 +35,7 @@ public class Book extends AbstractEntity {
     private User user;
 
     @Column(columnDefinition = "integer default 0")
-    private Integer quant_of_ratings;
+    private Integer likes;
 
     @Column(columnDefinition = "integer default 0")
     private Integer rating;
@@ -88,12 +88,12 @@ public class Book extends AbstractEntity {
         this.category = category;
     }
 
-    public Integer getQuant_of_ratings() {
-        return quant_of_ratings;
+    public Integer getLikes() {
+        return likes;
     }
 
-    public void setQuant_of_ratings(Integer quant_of_ratings) {
-        this.quant_of_ratings = quant_of_ratings;
+    public void setLikes(Integer likes) {
+        this.likes = likes;
     }
 
     public Integer getRating() {
@@ -117,12 +117,12 @@ public class Book extends AbstractEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Book book = (Book) o;
-        return name.equals(book.name) && description.equals(book.description) && photoPath.equals(book.photoPath) && genre.equals(book.genre) && fandom.equals(book.fandom) && category.equals(book.category) && user.equals(book.user) && quant_of_ratings.equals(book.quant_of_ratings) && rating.equals(book.rating);
+        return name.equals(book.name) && description.equals(book.description) && photoPath.equals(book.photoPath) && genre.equals(book.genre) && fandom.equals(book.fandom) && category.equals(book.category) && user.equals(book.user) && likes.equals(book.likes) && rating.equals(book.rating);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, description, photoPath, genre, fandom, category, user, quant_of_ratings, rating);
+        return Objects.hash(name, description, photoPath, genre, fandom, category, user, likes, rating);
     }
 
     @Override
@@ -135,7 +135,7 @@ public class Book extends AbstractEntity {
                 ", fandom=" + fandom +
                 ", category=" + category +
                 ", user=" + user +
-                ", quant_of_ratings=" + quant_of_ratings +
+                ", likes=" + likes +
                 ", rating=" + rating +
                 '}';
     }
@@ -143,6 +143,6 @@ public class Book extends AbstractEntity {
     @PrePersist
     public void prePersist() {
         this.rating = 0;
-        this.quant_of_ratings = 0;
+        this.likes = 0;
     }
 }

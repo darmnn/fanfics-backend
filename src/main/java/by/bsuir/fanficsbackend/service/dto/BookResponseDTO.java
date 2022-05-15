@@ -18,7 +18,7 @@ public class BookResponseDTO extends ResponseDTO<BookResponseDTO> {
 
     private UserResponseDTO user;
 
-    private Integer quant_of_ratings;
+    private Integer likes;
 
     private Integer rating;
 
@@ -77,12 +77,12 @@ public class BookResponseDTO extends ResponseDTO<BookResponseDTO> {
         this.tags = tags;
     }
 
-    public Integer getQuant_of_ratings() {
-        return quant_of_ratings;
+    public Integer getLikes() {
+        return likes;
     }
 
-    public void setQuant_of_ratings(Integer quant_of_ratings) {
-        this.quant_of_ratings = quant_of_ratings;
+    public void setLikes(Integer likes) {
+        this.likes = likes;
     }
 
     public Integer getRating() {
@@ -107,11 +107,11 @@ public class BookResponseDTO extends ResponseDTO<BookResponseDTO> {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         BookResponseDTO that = (BookResponseDTO) o;
-        return name.equals(that.name) && description.equals(that.description) && Objects.equals(quant_of_ratings, that.quant_of_ratings) && Objects.equals(rating, that.rating);
+        return name.equals(that.name) && description.equals(that.description) && Objects.equals(likes, that.likes) && Objects.equals(rating, that.rating);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), name, description, quant_of_ratings, rating);
+        return Objects.hash(super.hashCode(), name, description, likes, rating);
     }
 }
