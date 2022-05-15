@@ -60,7 +60,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.OPTIONS, "/books/{id}").permitAll()
                 .antMatchers(HttpMethod.DELETE, "/books/{id}").hasAuthority(DELETE.getPermission())
                 .antMatchers(HttpMethod.POST, "book/{id}/like").hasAuthority(READ.getPermission())
+                .antMatchers(HttpMethod.POST, "book/{id}/dislike").hasAuthority(READ.getPermission())
                 .antMatchers(HttpMethod.OPTIONS, "book/{id}/like").permitAll()
+                .antMatchers(HttpMethod.OPTIONS, "book/{id}/dislike").permitAll()
 
                 .antMatchers(HttpMethod.GET, "/comments").permitAll()
                 .antMatchers(HttpMethod.POST, "/comments").hasAuthority(READ.getPermission())
