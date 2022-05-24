@@ -39,8 +39,8 @@ CREATE TABLE user
     createdAt      TIMESTAMP,
     updatedAt      TIMESTAMP,
     age            INT,
-    about           VARCHAR(300),
-    contactInfo           VARCHAR(300),
+    about           VARCHAR(10000),
+    contactInfo           VARCHAR(10000),
     admin          BIT,
     blocked         BIT
 );
@@ -49,7 +49,7 @@ CREATE TABLE book
 (
     id               INTEGER AUTO_INCREMENT PRIMARY KEY,
     name             VARCHAR(100) UNIQUE,
-    description      VARCHAR(300),
+    description      VARCHAR(5000),
     likes INT,
     rating INT,
     createdAt      TIMESTAMP,
@@ -64,7 +64,7 @@ CREATE TABLE chapter
 (
     id               INTEGER AUTO_INCREMENT PRIMARY KEY,
     name             VARCHAR(100) UNIQUE,
-    text      VARCHAR(400),
+    text      VARCHAR(500000),
     number INT,
     createdAt      TIMESTAMP,
     updatedAt      TIMESTAMP,
@@ -118,12 +118,12 @@ insert into user(name, password, age, about, contactInfo, admin, blocked, email)
 insert into user(name, password, age, about, contactInfo, admin, blocked, email) values('user2', '456', 22, 'Hi, I am user 2!', 'instagram: @user2', 0, 0, 'email2@mail.ru');
 insert into user(name, password, age, about, contactInfo, admin, blocked, email) values('user3', '789', 25, 'Hi, I am user 3!', 'instagram: @user3', 0, 1, 'email3@mail.ru');
 
-insert into book(name, description, rating, fandom, category, genre, user, likes) values('Ghostbuster 2.0', 'Вряд ли молодая девушка могла бы подумать, насколько её прошлое запутанное. Её состояние с каждым днем ухудшается, а призраки из прошлого все чаще посещают её.', 3, 1, 2, 3, 1, 0);
-insert into book(name, description, rating, fandom, category, genre, user, likes) values('Вселенная забытого бога', 'Жизнь его исчиляется множеством столетий, а богатства королей - ничто в сравнении с сокровищами в его владении.', 3, 1, 2, 3, 2, 0);
-insert into book(name, description, rating, fandom, category, genre, user, likes) values('Восход Теней', 'Больше века минуло со свержения Тёмного. Мир расколот междоусобицами, боги требуют всё больше жертв, возвращаются герои забытых сказок. ', 2, 2, 1, 1, 3, 0);
-insert into book(name, description, rating, fandom, category, genre, user, likes) values('Синеглазый офицер', 'Как могли бы развиваться отношения двух главных героев. В этой версии событий нет Варвары Синичкиной, Глеб Жеглов не убивал Левченко. Возможно, появится намек на дело Груздевой.', 1, 4, 2, 2, 1, 0);
-insert into book(name, description, rating, fandom, category, genre, user, likes) values('Эгеон', 'Лина с детства грезила морем и всегда была защитницей окружающей среды. Её главное увлечение — дайвинг и книги по морской биологии, а поступление в Институт естественных наук стало приоритетом в жизни.', 3, 1, 4, 3, 2, 0);
-insert into book(name, description, rating, fandom, category, genre, user, likes) values('Считая звезды', 'Вторая Магическая война закончена, но, похоже, не за горами Третья — на этот раз между двумя магазинами в Косом переулке. Одним заведуют близнецы Уизли, другим...', 5, 5 , 4, 3, 2, 0);
+insert into book(name, description, rating, fandom, category, genre, user, likes) values('Ghostbuster 2.0', 'Вряд ли молодая девушка могла бы подумать, насколько её прошлое запутанное. Её состояние с каждым днем ухудшается, а призраки из прошлого все чаще посещают её.', 3, 1, 2, 3, 1, 10);
+insert into book(name, description, rating, fandom, category, genre, user, likes) values('Вселенная забытого бога', 'Жизнь его исчиляется множеством столетий, а богатства королей - ничто в сравнении с сокровищами в его владении.', 3, 1, 2, 3, 2, 11);
+insert into book(name, description, rating, fandom, category, genre, user, likes) values('Восход Теней', 'Больше века минуло со свержения Тёмного. Мир расколот междоусобицами, боги требуют всё больше жертв, возвращаются герои забытых сказок. ', 2, 2, 1, 1, 3, 2);
+insert into book(name, description, rating, fandom, category, genre, user, likes) values('Синеглазый офицер', 'Как могли бы развиваться отношения двух главных героев. В этой версии событий нет Варвары Синичкиной, Глеб Жеглов не убивал Левченко. Возможно, появится намек на дело Груздевой.', 1, 4, 2, 2, 1, 3);
+insert into book(name, description, rating, fandom, category, genre, user, likes) values('Эгеон', 'Лина с детства грезила морем и всегда была защитницей окружающей среды. Её главное увлечение — дайвинг и книги по морской биологии, а поступление в Институт естественных наук стало приоритетом в жизни.', 3, 1, 4, 3, 2, 5);
+insert into book(name, description, rating, fandom, category, genre, user, likes) values('Считая звезды', 'Вторая Магическая война закончена, но, похоже, не за горами Третья — на этот раз между двумя магазинами в Косом переулке. Одним заведуют близнецы Уизли, другим...', 5, 5 , 4, 3, 2, 7);
 
 insert into book_tag_map(book, tag) values(1, 1);
 insert into book_tag_map(book, tag) values(1, 2);
