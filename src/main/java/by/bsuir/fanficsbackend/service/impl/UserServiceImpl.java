@@ -1,8 +1,6 @@
 package by.bsuir.fanficsbackend.service.impl;
 
 import by.bsuir.fanficsbackend.exception.ResourceNotFoundException;
-import by.bsuir.fanficsbackend.exception.ValidationException;
-import by.bsuir.fanficsbackend.persistence.entity.Book;
 import by.bsuir.fanficsbackend.persistence.entity.User;
 import by.bsuir.fanficsbackend.persistence.repository.UserRepository;
 import by.bsuir.fanficsbackend.security.Role;
@@ -10,7 +8,6 @@ import by.bsuir.fanficsbackend.service.AbstractCrudService;
 import by.bsuir.fanficsbackend.service.UserService;
 import by.bsuir.fanficsbackend.service.assembler.UserRequestDTOAssembler;
 import by.bsuir.fanficsbackend.service.assembler.UserResponseDTOAssembler;
-import by.bsuir.fanficsbackend.service.dto.SearchDTO;
 import by.bsuir.fanficsbackend.service.dto.UserRequestDTO;
 import by.bsuir.fanficsbackend.service.dto.UserResponseDTO;
 import by.bsuir.fanficsbackend.service.dto.UserSearchDTO;
@@ -21,7 +18,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -30,7 +26,6 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 public class UserServiceImpl extends AbstractCrudService<UserResponseDTO, UserRequestDTO, UserRequestDTO, UserSearchDTO,
@@ -42,7 +37,7 @@ public class UserServiceImpl extends AbstractCrudService<UserResponseDTO, UserRe
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = repository.findByName(username);
+        User user = repository.findByName(username).orElseThrow(() -> new ResourceNotFoundException("No such user"));
         Role userRole;
 
         if (user.getAdmin()) {
@@ -61,7 +56,7 @@ public class UserServiceImpl extends AbstractCrudService<UserResponseDTO, UserRe
         if (!(authentication instanceof AnonymousAuthenticationToken)) {
             String currentUserName = authentication.getName();
 
-            User currentUser = repository.findByName(currentUserName);
+            User currentUser = repository.findByName(currentUserName).orElseThrow(() -> new ResourceNotFoundException("No user found with username " + currentUserName));
             User user = repository.findById(id).orElseThrow();
 
             return currentUser.equals(user);

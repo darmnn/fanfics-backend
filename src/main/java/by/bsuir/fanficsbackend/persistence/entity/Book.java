@@ -3,6 +3,7 @@ package by.bsuir.fanficsbackend.persistence.entity;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 import javax.persistence.*;
+import java.time.OffsetDateTime;
 import java.util.Objects;
 
 @Entity
@@ -142,6 +143,7 @@ public class Book extends AbstractEntity {
 
     @PrePersist
     public void prePersist() {
+        this.setCreatedAt(OffsetDateTime.now());
         this.rating = 0;
         this.likes = 0;
     }

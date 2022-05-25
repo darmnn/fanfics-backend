@@ -76,7 +76,7 @@ public class ChapterServiceImpl extends AbstractCrudService<ChapterResponseDTO, 
         if (!(authentication instanceof AnonymousAuthenticationToken)) {
             String currentUserName = authentication.getName();
 
-            User user = userRepository.findByName(currentUserName);
+            User user = userRepository.findByName(currentUserName).orElseThrow(() -> new ResourceNotFoundException("No user found with username" + currentUserName));
             Book book = repository.findById(id).orElseThrow().getBook();
 
             return book.getUser().equals(user);

@@ -21,6 +21,7 @@ public class AbstractEntity {
     @PrePersist
     public void prePersist() {
         this.createdAt = OffsetDateTime.now();
+        this.updatedAt = OffsetDateTime.now();
     }
 
     @PreUpdate

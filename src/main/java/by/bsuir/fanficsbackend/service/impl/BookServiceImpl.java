@@ -122,7 +122,7 @@ public class BookServiceImpl extends AbstractCrudService<BookResponseDTO, BookCr
         }
         if (dto.getGenreId() != null) {
             Genre genre = genreRepository.findById(dto.getGenreId()).orElseThrow(() ->
-                    new ResourceNotFoundException("No genre with ID" + dto.getGenreId().toString()));
+                    new ResourceNotFoundException("No genre with ID " + dto.getGenreId().toString()));
             entity.setGenre(genre);
         }
         if (dto.getFandomId() != null) {
@@ -147,8 +147,7 @@ public class BookServiceImpl extends AbstractCrudService<BookResponseDTO, BookCr
                     if (!bookTagMapRepository.findByBookIdAndTagId(entity.getId(), tagEntity.getId()).isPresent()) {
                         bookTagMapRepository.save(bookTagMap);
                     }
-                }
-                else {
+                } else {
                     Tag tagEntity = new Tag();
                     tagEntity.setName(tag);
                     bookTagMap.setTag(tagEntity);
@@ -167,7 +166,7 @@ public class BookServiceImpl extends AbstractCrudService<BookResponseDTO, BookCr
         if (!(authentication instanceof AnonymousAuthenticationToken)) {
             String currentUserName = authentication.getName();
 
-            User user = userRepository.findByName(currentUserName);
+            User user = userRepository.findByName(currentUserName).orElseThrow(() -> new ResourceNotFoundException("No user found with username " + currentUserName));
             Book book = repository.findById(id).orElseThrow();
 
             return book.getUser().equals(user);
@@ -184,17 +183,13 @@ public class BookServiceImpl extends AbstractCrudService<BookResponseDTO, BookCr
 
         if (entity.getLikes() < 15) {
             entity.setRating(1);
-        }
-        else if (entity.getLikes() >= 15 && entity.getLikes() < 30) {
+        } else if (entity.getLikes() >= 15 && entity.getLikes() < 30) {
             entity.setRating(2);
-        }
-        else if (entity.getLikes() >= 30 && entity.getLikes() < 50) {
+        } else if (entity.getLikes() >= 30 && entity.getLikes() < 50) {
             entity.setRating(3);
-        }
-        else if (entity.getLikes() >= 50 && entity.getLikes() < 100) {
+        } else if (entity.getLikes() >= 50 && entity.getLikes() < 100) {
             entity.setRating(4);
-        }
-        else if (entity.getLikes() >= 100) {
+        } else if (entity.getLikes() >= 100) {
             entity.setRating(5);
         }
 

@@ -115,5 +115,6 @@ public class User extends AbstractEntity {
     public void prePersist() {
         this.admin = false;
         this.blocked = false;
+        super.prePersist();
     }
 }

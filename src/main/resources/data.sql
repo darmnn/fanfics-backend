@@ -83,7 +83,7 @@ CREATE TABLE book_tag_map
 CREATE TABLE comment
 (
     id               INTEGER AUTO_INCREMENT PRIMARY KEY,
-    text      VARCHAR(400),
+    text      VARCHAR(500),
     book INTEGER REFERENCES book (id) ON DELETE CASCADE,
     user INTEGER REFERENCES user (id) ON DELETE CASCADE,
     updatedAt      TIMESTAMP,
