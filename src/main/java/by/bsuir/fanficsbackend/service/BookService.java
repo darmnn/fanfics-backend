@@ -21,10 +21,8 @@ public interface BookService extends CrudService<BookCreateRequestDTO, BookSearc
                                       @RequestParam(required = false) Long tag);
 
     @PostMapping("/{id}/like")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
     void like(@PathVariable Long id);
 
     @PostMapping("/{id}/dislike")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
     void dislike(@PathVariable Long id);
 }
